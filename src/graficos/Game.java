@@ -1,7 +1,11 @@
 package graficos;
 
 import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 
@@ -9,16 +13,21 @@ public class Game extends Canvas implements Runnable {
 // Canvas = janela do Game
 
 	private static final long serialVersionUID = 1L; // Nada muito importante... só pra tirar a marcação em Game
+	
 	public static JFrame jFrame; // Janela
+	private Thread thread;
+	private boolean isRunning = true;
+	
 	private static int WIDTH = 160; // Largura
 	private static int HEIGHT = 120; // Altura
 	private static int SCALE = 3; // Servirá para multiplicar a largura e altura pelo valor da escala
-	private Thread thread;
-	private boolean isRunning = true;
+	
+	private BufferedImage fundo; // Fundo do jogo
 	
 	public Game() {
 		this.setPreferredSize(new Dimension(WIDTH*SCALE, HEIGHT*SCALE)); // Tamanho para o JFrame
 		initFrame(); // Organizar partes do código e separá-las (mais literal)
+		fundo = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB); // Inicializando...
 	}
 	
 	public void initFrame() {
@@ -54,7 +63,21 @@ public class Game extends Canvas implements Runnable {
 	}
 	
 	public void render() {
+		BufferStrategy buffer = this.getBufferStrategy();
 		
+		if(buffer == null) {
+			this.createBufferStrategy(3);
+			
+			return;
+		}
+		
+		Graphics g = fundo.getGraphics();
+		g.setColor(new Color(20, 20, 20));
+		g.fillRect(0, 0, WIDTH, HEIGHT);
+		g = buffer.getDrawGraphics(); // Evitar efeito "pisca-pisca" da tela
+		g.drawImage(fundo, 0, 0, WIDTH*SCALE, HEIGHT*SCALE, null);
+		
+		buffer.show();
 	}
 
 	@Override
