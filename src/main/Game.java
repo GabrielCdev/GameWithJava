@@ -24,9 +24,9 @@ public class Game extends Canvas implements Runnable {
 	private Thread thread;
 	private boolean isRunning = true;
 
-	private static int WIDTH = 160; // Largura
-	private static int HEIGHT = 120; // Altura
-	private static int SCALE = 3; // Servirá para multiplicar a largura e altura pelo valor da escala
+	private static int WIDTH = 260; // Largura
+	private static int HEIGHT = 140; // Altura
+	private static int SCALE = 4; // Servirá para multiplicar a largura e altura pelo valor da escala
 	
 	private BufferedImage fundo; // Fundo do jogo
 	private List<Entity> entidades;
