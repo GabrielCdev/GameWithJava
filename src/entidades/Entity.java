@@ -4,12 +4,11 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 public class Entity {
+// Classe pai
 // Para organizar/alocar os itens/objetos do game (Ex.: objetos dentro do mapa etc)
 	
-	protected int x;
-	protected int y;
-	protected int width;
-	protected int height;
+	protected double x, y; // Double para diminuir a velocidade do movimento do personagem
+	protected int width, height;
 	protected BufferedImage sprite;
 	
 	public Entity(int x, int y, int width, int height, BufferedImage sprite) {
@@ -20,12 +19,22 @@ public class Entity {
 		this.sprite = sprite;
 	}
 	
+	// Setters
+	public void setX(int newX) {
+		this.x = newX;
+	}
+	
+	public void setY(int newY) {
+		this.y = newY;
+	}
+	
+	// Getters
 	public int getX() {
-		return this.x;
+		return (int)this.x;
 	}
 	
 	public int getY() {
-		return this.y;
+		return (int)this.y;
 	}
 	
 	public int getWidth() {
