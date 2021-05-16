@@ -32,7 +32,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
 	
 	private BufferedImage fundo; // Fundo do jogo
 	private List<Entity> entidades;
-	public Spritesheet sprite;
+	public static Spritesheet sprite;
 	public Player player;
 	
 	public Game() {
@@ -90,10 +90,10 @@ public class Game extends Canvas implements Runnable, KeyListener {
 	}
 	
 	public void render() {
-		BufferStrategy buffer = this.getBufferStrategy();
+		BufferStrategy buffer = this.getBufferStrategy(); // Sequência de buffers para otimizar a renderização dos gráficos
 		
 		if(buffer == null) {
-			this.createBufferStrategy(3);
+			this.createBufferStrategy(3); // 3 = buffers necessários, caso null = 3 são criados
 			
 			return;
 		}

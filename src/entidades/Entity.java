@@ -7,8 +7,11 @@ public class Entity {
 // Classe pai
 // Para organizar/alocar os itens/objetos do game (Ex.: objetos dentro do mapa etc)
 	
-	protected double x, y; // Double para diminuir a velocidade do movimento do personagem
-	protected int width, height;
+	// Double para diminuir a velocidade do movimento do personagem (ponto flutuante)
+	protected double x; 
+	protected double y;
+	protected int width;
+	protected int height;
 	protected BufferedImage sprite;
 	
 	public Entity(int x, int y, int width, int height, BufferedImage sprite) {
