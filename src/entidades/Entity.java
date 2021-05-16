@@ -21,7 +21,7 @@ public class Entity {
 		this.sprite = sprite;
 	}
 	
-	// Setters
+	// Setters <- Serão usados para setar a posição do player
 	public void setX(int newX) {
 		this.x = newX;
 	}

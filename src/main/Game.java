@@ -27,8 +27,8 @@ public class Game extends Canvas implements Runnable, KeyListener {
 	private Thread thread;
 	private boolean isRunning = true;
 
-	private static int WIDTH = 240; // Largura
-	private static int HEIGHT = 160; // Altura
+	public static int WIDTH = 240; // Largura
+	public static int HEIGHT = 160; // Altura
 	private static int SCALE = 4; // Servirá para multiplicar a largura e altura pelo valor da escala
 	
 	private BufferedImage fundo; // Fundo do jogo

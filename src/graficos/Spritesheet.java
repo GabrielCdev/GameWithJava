@@ -5,6 +5,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import mapa.Camera;
+
 public class Spritesheet {
 
 	public BufferedImage spritesheet;
@@ -18,6 +20,6 @@ public class Spritesheet {
 	}
 	
 	public BufferedImage getSprite(int x, int y, int width, int height) {
-		return spritesheet.getSubimage(x, y, width, height); // Retorna a imagem buscada em Spritesheet
+		return spritesheet.getSubimage(x - Camera.x, y - Camera.y, width, height); // Retorna a imagem buscada em Spritesheet
 	}
 }

@@ -6,6 +6,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import main.Game;
+
 public class Mapa {
 	
 	public static int WIDTH; // Para ter um acesso ao tamanho largura do vetor
@@ -30,7 +32,8 @@ public class Mapa {
 					
 					// Verificações (com ajuda do Aseprite)
 					if(pixelAtual == 0xFF7bff00) { // Verificação para o PLAYER
-						tiles[x + (y*WIDTH)] = new Empty(x*16, y*16, Tile.empty); // No player não vai ter nada de background
+						Game.player.setX(x*16); // Pixel atual * 16 = posição correta do player
+						Game.player.setY(y*16); // Pixel atual * 16 = posição correta do player
 					}else if(pixelAtual == 0xFF8f563b) { // Verificação para o SOLO (terra)
 						tiles[x + (y*WIDTH)] = new Solo(x*16, y*16, Tile.chao);
 					}else if(pixelAtual == 0xFF4b692f) { // Verificações para o SOLO (grama)

@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import main.Game;
+import mapa.Camera;
 
 public class Player extends Entity {
 	
@@ -58,13 +59,28 @@ public class Player extends Entity {
 			movimentacao = 1;
 			direcaoAtual = esquerda;
 		}
+		
+		if(down) {
+			y += speed;
+			movimentacao = 1;
+		}
+		
+		if(up) {
+			y -= speed;
+			movimentacao = 1;
+		}
+		
+		// Teste de movimentação
+		// x += 2; // Dir
+		// x -= 2; // Esq
+		// y += 2; // Baixo
+		// y -= 2; // Cima
 
 		// Toda vez que movimentar o frame é incrementado
 		if(movimentacao == 1) {
 			frames++;
-
-			// Quando for igual ao valor máximo, o index será incrementado
-			if(frames == maxFrames) {
+			
+			if(frames == maxFrames) { // Quando for igual ao valor máximo, o index será incrementado
 				index++; // Rodará +1 index da animação... 0 -> 1 -> 2 -> 3
 				frames = 0; // Começar tudo de novo para chegar a um outro index
 				
@@ -74,42 +90,29 @@ public class Player extends Entity {
 			}
 		}
 		
-		/* TESTE DE MOVIMENTOS
-		if(down) {
-			y += speed;
-		}
-		
-		if(up) {
-			y -= speed;
-		}
-		*/
-
-		// Teste de movimentação
-		// x += 2; // Dir
-		// x -= 2; // Esq
-		// y += 2; // Baixo
-		// y -= 2; // Cima
+		Camera.x = this.getX() - (Game.WIDTH/2); // Posição atual do player - largura do jogo/2 -> Câmera do jogo fica centralizada no player
+		Camera.y = this.getY() - (Game.HEIGHT/2); // Posição atual do player - altura do jogo/2 -> Câmera do jogo fica centralizada no player
 	}
 	
 	public void render(Graphics g) {
 		// Movimentação para a direita
 		if(direcaoAtual == direita && movimentacao == 1) {
-			g.drawImage(playerRight[index], this.getX(), this.getY(), null);			
+			g.drawImage(playerRight[index], this.getX() - Camera.x, this.getY() - Camera.y, null);			
 		}
 		
 		// Idle
 		if(direcaoAtual == direita && movimentacao == 0) {
-			g.drawImage(playerRight[0], this.getX(), this.getY(), null);			
+			g.drawImage(playerRight[0], this.getX() - Camera.x, this.getY() - Camera.y, null);			
 		}
 		
 		// Movimentação para esquerda
 		if(direcaoAtual == esquerda && movimentacao == 1) {
-			g.drawImage(playerLeft[index], this.getX(), this.getY(), null);			
+			g.drawImage(playerLeft[index], this.getX() - Camera.x, this.getY() - Camera.y, null);			
 		}
 		
 		// Idle
 		if(direcaoAtual == esquerda && movimentacao == 0) {
-			g.drawImage(playerLeft[0], this.getX(), this.getY(), null);			
+			g.drawImage(playerLeft[0], this.getX() - Camera.x, this.getY() - Camera.y, null);			
 		}
 	}
 }
