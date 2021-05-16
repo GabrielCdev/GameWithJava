@@ -16,6 +16,7 @@ import javax.swing.JFrame;
 import entidades.Entity;
 import entidades.Player;
 import graficos.Spritesheet;
+import mapa.Mapa;
 
 public class Game extends Canvas implements Runnable, KeyListener {
 // Canvas = Meio de criação da tela e seus itens (botão de fechar, minimizar etc etc)
@@ -33,6 +34,8 @@ public class Game extends Canvas implements Runnable, KeyListener {
 	private BufferedImage fundo; // Fundo do jogo
 	private List<Entity> entidades;
 	public static Spritesheet sprite;
+	public static Mapa mapa;
+	
 	public Player player;
 	
 	public Game() {
@@ -40,8 +43,9 @@ public class Game extends Canvas implements Runnable, KeyListener {
 		this.setPreferredSize(new Dimension(WIDTH*SCALE, HEIGHT*SCALE)); // Tamanho para o JFrame
 		initFrame(); // Organizar partes do código e separá-las (mais literal)
 		fundo = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB); // Inicializando...
-		entidades = new ArrayList<Entity>(); // Só para rodar coisas referentes a entidades
-		sprite = new Spritesheet("/spritesheet.png");
+		entidades = new ArrayList<Entity>(); // Para rodar coisas referentes a entidades
+		sprite = new Spritesheet("/spritesheet.png"); // Sprite das entidades
+		mapa = new Mapa("/level1.png");
 		player = new Player(0, 0, 16, 16, sprite.getSprite(32, 0, 16, 16));
 		entidades.add(player); // Adicionar o player
 	}

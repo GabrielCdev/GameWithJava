@@ -6,8 +6,7 @@ import java.awt.image.BufferedImage;
 import main.Game;
 
 public class Player extends Entity {
-
-	 // Keyboard arrows
+	// Keyboard arrows
 	public boolean right;
 	public boolean left;
 	public boolean down;
