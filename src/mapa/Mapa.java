@@ -49,8 +49,18 @@ public class Mapa {
 	}
 	
 	public void render(Graphics g) {
-		for(int x = 0; x < WIDTH; x++) {
-			for(int y = 0; y < HEIGHT; y++) {
+		int xi = Camera.x/16; // xi = X inicial - Verificar o pixel da imagem original sem o tile
+		int yi = Camera.y/16; // yi = Y inicial - Verificar o pixel da imagem original sem o tile
+		int xf = xi + (Game.WIDTH/16); // xf = X final - Verificar até onde dá pra renderizar
+		int yf = yi + (Game.HEIGHT/16); // yf = Y final - Verificar até onde dá pra renderizar
+
+		for(int x = xi; x <= xf; x++) {
+			for(int y = yi; y <= yf; y++) {
+				// Verificação para o jogo continuar (sem "colidir" com a parte preta)
+				if(x < 0 || y < 0 || x >= WIDTH || y >= HEIGHT) {
+					continue;
+				}
+				
 				// Acessar o tamanho do vetor e renderizar
 				Tile tile = tiles[x + (y*WIDTH)];
 				tile.render(g);

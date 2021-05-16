@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 
 import main.Game;
 import mapa.Camera;
+import mapa.Mapa;
 
 public class Player extends Entity {
 	
@@ -90,8 +91,9 @@ public class Player extends Entity {
 			}
 		}
 		
-		Camera.x = this.getX() - (Game.WIDTH/2); // Posição atual do player - largura do jogo/2 -> Câmera do jogo fica centralizada no player
-		Camera.y = this.getY() - (Game.HEIGHT/2); // Posição atual do player - altura do jogo/2 -> Câmera do jogo fica centralizada no player
+		// Limitar a tela de jogo baseado no "mapa"
+		Camera.x = Camera.Clamp(this.getX() - (Game.WIDTH/2), 0, mapa.Mapa.WIDTH*16 - Game.WIDTH); // 1º item = Posição atual do player - largura do jogo/2 -> Câmera do jogo fica centralizada no player, 2º min = 0 (só renderizar valores >= 0)
+		Camera.y = Camera.Clamp(this.getY() - (Game.HEIGHT/2), 0, mapa.Mapa.HEIGHT*16 - Game.HEIGHT); // 1º item = Posição atual do player - largura do jogo/2 -> Câmera do jogo fica centralizada no player, 2º min = 0 (só renderizar valores >= 0)
 	}
 	
 	public void render(Graphics g) {
