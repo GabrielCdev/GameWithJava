@@ -3,9 +3,8 @@ package entidades;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+// Classe pai - para organizar/alocar os itens/objetos do game (Ex.: objetos dentro do mapa etc)
 public class Entity {
-// Classe pai
-// Para organizar/alocar os itens/objetos do game (Ex.: objetos dentro do mapa etc)
 	
 	// Double para diminuir a velocidade do movimento do personagem (ponto flutuante)
 	protected double x; 

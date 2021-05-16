@@ -27,16 +27,16 @@ public class Game extends Canvas implements Runnable, KeyListener {
 	private Thread thread;
 	private boolean isRunning = true;
 
-	private static int WIDTH = 260; // Largura
-	private static int HEIGHT = 140; // Altura
+	private static int WIDTH = 240; // Largura
+	private static int HEIGHT = 160; // Altura
 	private static int SCALE = 4; // Servirá para multiplicar a largura e altura pelo valor da escala
 	
 	private BufferedImage fundo; // Fundo do jogo
-	private List<Entity> entidades;
+	private static List<Entity> entidades;
 	public static Spritesheet sprite;
 	public static Mapa mapa;
 	
-	public Player player;
+	public static Player player;
 	
 	public Game() {
 		addKeyListener(this); // Adicionando um evento "escutador" de teclado
@@ -45,9 +45,9 @@ public class Game extends Canvas implements Runnable, KeyListener {
 		fundo = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB); // Inicializando...
 		entidades = new ArrayList<Entity>(); // Para rodar coisas referentes a entidades
 		sprite = new Spritesheet("/spritesheet.png"); // Sprite das entidades
-		mapa = new Mapa("/level1.png");
 		player = new Player(0, 0, 16, 16, sprite.getSprite(32, 0, 16, 16));
 		entidades.add(player); // Adicionar o player
+		mapa = new Mapa("/level1.png");
 	}
 	
 	public void initFrame() {
@@ -86,9 +86,8 @@ public class Game extends Canvas implements Runnable, KeyListener {
 	
 	// Tick antes do Render
 	public void tick() {
-		for(int i = 0; i<entidades.size(); i++) {
+		for(int i = 0; i < entidades.size(); i++) {
 			Entity entidade = entidades.get(i);
-			
 			entidade.tick();
 		}
 	}
@@ -103,10 +102,12 @@ public class Game extends Canvas implements Runnable, KeyListener {
 		}
 		
 		Graphics g = fundo.getGraphics();
-		g.setColor(new Color(20, 20, 20));
+		g.setColor(new Color(0, 0, 0));
 		g.fillRect(0, 0, WIDTH, HEIGHT);
 		
-		for(int i = 0; i<entidades.size(); i++) {
+		mapa.render(g);
+		
+		for(int i = 0; i < entidades.size(); i++) {
 			Entity entidade = entidades.get(i);
 			
 			entidade.render(g);
@@ -114,7 +115,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
 		
 		g = buffer.getDrawGraphics(); // Evitar efeito "pisca-pisca" da tela
 		g.drawImage(fundo, 0, 0, WIDTH*SCALE, HEIGHT*SCALE, null);
-		
 		buffer.show();
 	}
 
