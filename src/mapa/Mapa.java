@@ -6,8 +6,11 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import entidades.Cenoura;
 import entidades.Ceu;
 import entidades.Entity;
+import entidades.Grama;
+import entidades.Inimigo;
 import entidades.Solido;
 import main.Game;
 
@@ -46,6 +49,15 @@ public class Mapa {
 					}else if(pixelAtual == 0xFF004eff) { // Bloco vazio
 						Ceu ceu = new Ceu(x*16,y*16,16,16,Entity.ceu);
 						Game.ceuVetor.add(ceu);
+					}else if(pixelAtual == 0xFFff0000) {
+						Inimigo inimigo = new Inimigo(x*16, y*16, 16, 16, Entity.inimigo);
+						Game.inimigo.add(inimigo);
+					}else if(pixelAtual == 0xFFff5e00) {
+						Cenoura cenoura = new Cenoura(x*16, y*16, 16, 16, Entity.cenoura);
+						Game.cenoura.add(cenoura);
+					}else if(pixelAtual == 0xFF143e0d) {
+						Grama grama = new Grama(x*16, y*16, 16, 16, Entity.grama);
+						Game.entidades.add(grama);
 					}
 				}				
 			}

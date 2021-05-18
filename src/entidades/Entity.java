@@ -12,7 +12,11 @@ public class Entity {
 	public static BufferedImage chao = Game.sprite.getSprite(0, 0, 16, 16); // Bloco Terra
 	public static BufferedImage chaoGrama = Game.sprite.getSprite(16, 0, 16, 16); // Bloco Terra e Grama
 	public static BufferedImage empty = Game.sprite.getSprite(16, 32, 16, 16); // Bloco Vazio
-	public static BufferedImage ceu = Game.ceu.getSprite(0, 0, 1471, 400);
+	public static BufferedImage ceu = Game.ceu.getSprite(0, 0, 1471, 400); // Bloco Ceu (background)
+	
+	public static BufferedImage grama = Game.sprite.getSprite(0, 32, 16, 16); // Bloco Grama
+	public static BufferedImage inimigo = Game.sprite.getSprite(112, 0, 16, 16); // Bloco Alienigena (inimigo)
+	public static BufferedImage cenoura = Game.sprite.getSprite(112, 16, 16, 16); // Bloco Cenoura (recuperar vida)
 	
 	// Double para diminuir a velocidade do movimento do personagem (ponto flutuante)
 	protected double x; 

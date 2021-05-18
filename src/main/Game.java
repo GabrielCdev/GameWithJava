@@ -14,8 +14,10 @@ import java.util.List;
 import javax.swing.JFrame;
 
 import mapa.Mapa;
+import entidades.Cenoura;
 import entidades.Ceu;
 import entidades.Entity;
+import entidades.Inimigo;
 import entidades.Player;
 import graficos.Spritesheet;
 
@@ -42,6 +44,9 @@ public class Game extends Canvas implements Runnable, KeyListener {
 	public static List<Ceu> ceuVetor;
 	public static Spritesheet ceu;
 	
+	public static List<Cenoura> cenoura;
+	public static List<Inimigo> inimigo;
+	
 	public UserInterface ui;
 	
 	public Game() {
@@ -52,6 +57,8 @@ public class Game extends Canvas implements Runnable, KeyListener {
 		fundo = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB); // Inicializando...
 		entidades = new ArrayList<Entity>(); // Para rodar coisas referentes a entidades
 		sprite = new Spritesheet("/spritesheet.png"); // Sprite das entidades
+		cenoura = new ArrayList<Cenoura>();
+		inimigo = new ArrayList<Inimigo>();
 		ceuVetor = new ArrayList<Ceu>();
 		ceu = new Spritesheet("/ceusprite.png");
 		player = new Player(0, 0, 16, 16, sprite.getSprite(32, 0, 16, 16));
@@ -104,6 +111,16 @@ public class Game extends Canvas implements Runnable, KeyListener {
 			Ceu entidade = ceuVetor.get(i);
 			entidade.tick();
 		}
+		
+		for(int i = 0; i < cenoura.size(); i++) {
+			Cenoura entidade = cenoura.get(i);
+			entidade.tick();
+		}
+		
+		for(int i = 0; i < inimigo.size(); i++) {
+			Inimigo entidade = inimigo.get(i);
+			entidade.tick();
+		}
 	}
 	
 	public void render() {
@@ -124,14 +141,22 @@ public class Game extends Canvas implements Runnable, KeyListener {
 		// Render céu atrás das entidades para carregar o céu (background) antes
 		for(int i = 0; i < ceuVetor.size(); i++) {
 			Ceu entidade = ceuVetor.get(i);
-			
 			entidade.render(g);
 		}
 		
 		// Responsável por alocar o player, tile, sólido...
 		for(int i = 0; i < entidades.size(); i++) {
 			Entity entidade = entidades.get(i);
-			
+			entidade.render(g);
+		}
+		
+		for(int i = 0; i < cenoura.size(); i++) {
+			Cenoura entidade = cenoura.get(i);
+			entidade.render(g);
+		}
+		
+		for(int i = 0; i < inimigo.size(); i++) {
+			Inimigo entidade = inimigo.get(i);
 			entidade.render(g);
 		}
 		
