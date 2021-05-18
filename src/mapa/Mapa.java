@@ -6,6 +6,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import entidades.Entity;
+import entidades.Solido;
 import main.Game;
 
 public class Mapa {
@@ -28,18 +30,20 @@ public class Mapa {
 				for(int y = 0; y < level.getHeight(); y++) { // Tudo que estiver na VERTICAL
 					// Quando cruzarem o mesmo ponto (se coincidirem)...
 					int pixelAtual = pixels[x + (y*level.getWidth())]; // Acessa o tamanho do vetor para verificar/adicionar/renderizar os elementos
-					tiles[x + (y*WIDTH)] = new Empty(x*16, y*16, Tile.empty); // Background transparente
+					tiles[x + (y*WIDTH)] = new Empty(x*16, y*16, Entity.empty); // Background transparente
 					
 					// Verificações (com ajuda do Aseprite)
 					if(pixelAtual == 0xFF7bff00) { // Verificação para o PLAYER
 						Game.player.setX(x*16); // Pixel atual * 16 = posição correta do player
 						Game.player.setY(y*16); // Pixel atual * 16 = posição correta do player
 					}else if(pixelAtual == 0xFF8f563b) { // Verificação para o SOLO (terra)
-						tiles[x + (y*WIDTH)] = new Solo(x*16, y*16, Tile.chao);
+						Solido solido = new Solido(x*16, y*16, 16, 16, Entity.chao);
+						Game.entidades.add(solido);
 					}else if(pixelAtual == 0xFF4b692f) { // Verificações para o SOLO (grama)
-						tiles[x + (y*WIDTH)] = new Solo(x*16, y*16, Tile.grama);
+						Solido solido = new Solido(x*16, y*16, 16, 16, Entity.chaoGrama);
+						Game.entidades.add(solido);
 					}else if(pixelAtual == 0xFFffffff) { // Bloco vazio
-						tiles[x + (y*WIDTH)] = new Empty(x*16, y*16, Tile.empty); // *16 -> A imagem tem 1 pixel só, mas o tile tem que caber em tudo (=16 pixels)
+						tiles[x + (y*WIDTH)] = new Empty(x*16, y*16, Entity.empty); // *16 -> A imagem tem 1 pixel só, mas o tile tem que caber em tudo (=16 pixels)
 					}
 				}				
 			}

@@ -1,11 +1,11 @@
 package entidades;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import main.Game;
 import mapa.Camera;
-import mapa.Mapa;
 
 public class Player extends Entity {
 	
@@ -15,6 +15,8 @@ public class Player extends Entity {
 	public boolean down;
 	public boolean up;
 	public double speed = 1.5;	// Velocidade de movimentação
+	public static double life = 100; // Vida do player
+	public static double maxLife = 100; // Vida máxima possível
 
 	public int direita = 1;
 	public int esquerda = 0;
@@ -25,6 +27,11 @@ public class Player extends Entity {
 	public int maxFrames = 5; // frames = maxFrames -> Index
 	public int index = 0;
 	public int maxIndex = 3; // 0 a 3 (serão usadas 4 animações)
+	
+	public int maskx = 0;
+	public int masky = 0;
+	public int maskw = 16;
+	public int maskh = 16;
 	
 	public BufferedImage[] playerRight;
 	public BufferedImage[] playerLeft;
@@ -49,33 +56,23 @@ public class Player extends Entity {
 		// Adicionando animação para movimentações
 		movimentacao = 0;
 		
-		if(right) {
+		// Colisão
+		if(!colisao((int)x, (int)(y+1)) == false) { // Enquanto não estiver colidindo... (y+1 = 1 px acima no eixo Y para não ficar abaixo do solo).
+			y += 2;
+		}
+		
+		// Adicionando animação para movimentações com colisão
+		if(right && !colisao((int)(x+speed), this.getY())) { // Se não tiver colidindo para a direita, continue andando
 			x += speed;
 			movimentacao = 1;
 			direcaoAtual = direita;
 		}
 			
-		if(left) {
+		if(left && !colisao((int)(x-speed), this.getY())) { // Se não tiver colidindo para a esquerda, continue andando
 			x -= speed;
 			movimentacao = 1;
 			direcaoAtual = esquerda;
 		}
-		
-		if(down) {
-			y += speed;
-			movimentacao = 1;
-		}
-		
-		if(up) {
-			y -= speed;
-			movimentacao = 1;
-		}
-		
-		// Teste de movimentação
-		// x += 2; // Dir
-		// x -= 2; // Esq
-		// y += 2; // Baixo
-		// y -= 2; // Cima
 
 		// Toda vez que movimentar o frame é incrementado
 		if(movimentacao == 1) {
@@ -91,9 +88,44 @@ public class Player extends Entity {
 			}
 		}
 		
+		// Teste de movimentação
+		/*
+		if(down) {
+			y += speed;
+			movimentacao = 1;
+		}
+		
+		if(up) {
+			y -= speed;
+			movimentacao = 1;
+		} 
+		*/
+		
+		// x += 2; // Dir
+		// x -= 2; // Esq
+		// y += 2; // Baixo
+		// y -= 2; // Cima
+		
 		// Limitar a tela de jogo baseado no "mapa"
 		Camera.x = Camera.Clamp(this.getX() - (Game.WIDTH/2), 0, mapa.Mapa.WIDTH*16 - Game.WIDTH); // 1º item = Posição atual do player - largura do jogo/2 -> Câmera do jogo fica centralizada no player, 2º min = 0 (só renderizar valores >= 0)
 		Camera.y = Camera.Clamp(this.getY() - (Game.HEIGHT/2), 0, mapa.Mapa.HEIGHT*16 - Game.HEIGHT); // 1º item = Posição atual do player - largura do jogo/2 -> Câmera do jogo fica centralizada no player, 2º min = 0 (só renderizar valores >= 0)
+	}
+	
+	public boolean colisao(int nextx, int nexty) { // nextx e nexty = pegar a posição X e Y do personagem
+		Rectangle player = new Rectangle(nextx + maskx, nexty + masky, maskw, maskh); // Criar um retângulo pro player
+		
+		for(int i = 0; i < Game.entidades.size(); i++) {
+			Entity entidade = Game.entidades.get(i);
+			
+			if(entidade instanceof Solido) { // Verifica se é um sólido. Se for, cria um novo retângulo para ela.
+				Rectangle solido = new Rectangle(entidade.getX() + maskx, entidade.getY() + masky, maskw, maskh);
+				
+				if(player.intersects(solido)) { // Verifica se o player está encostando num sólido
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	
 	public void render(Graphics g) {

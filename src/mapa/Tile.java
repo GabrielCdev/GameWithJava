@@ -4,12 +4,7 @@ package mapa;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-import main.Game;
-
 public class Tile {
-	public static BufferedImage chao = Game.sprite.getSprite(0, 0, 16, 16); // Bloco Terra
-	public static BufferedImage grama = Game.sprite.getSprite(16, 0, 16, 16); // Bloco Terra e Grama
-	public static BufferedImage empty = Game.sprite.getSprite(16, 32, 16, 16); // Bloco Vazio
 	
 	public int x;
 	public int y;

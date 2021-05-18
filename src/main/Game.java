@@ -32,16 +32,19 @@ public class Game extends Canvas implements Runnable, KeyListener {
 	private static int SCALE = 4; // Servirá para multiplicar a largura e altura pelo valor da escala
 	
 	private BufferedImage fundo; // Fundo do jogo
-	private static List<Entity> entidades;
+	public static List<Entity> entidades;
 	public static Spritesheet sprite;
 	public static Mapa mapa;
 	
 	public static Player player;
 	
+	public UserInterface ui;
+	
 	public Game() {
 		addKeyListener(this); // Adicionando um evento "escutador" de teclado
 		this.setPreferredSize(new Dimension(WIDTH*SCALE, HEIGHT*SCALE)); // Tamanho para o JFrame
 		initFrame(); // Organizar partes do código e separá-las (mais literal)
+		ui = new UserInterface();
 		fundo = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB); // Inicializando...
 		entidades = new ArrayList<Entity>(); // Para rodar coisas referentes a entidades
 		sprite = new Spritesheet("/spritesheet.png"); // Sprite das entidades
@@ -112,6 +115,8 @@ public class Game extends Canvas implements Runnable, KeyListener {
 			
 			entidade.render(g);
 		}
+		
+		ui.render(g);
 		
 		g = buffer.getDrawGraphics(); // Evitar efeito "pisca-pisca" da tela
 		g.drawImage(fundo, 0, 0, WIDTH*SCALE, HEIGHT*SCALE, null);

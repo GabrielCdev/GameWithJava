@@ -3,8 +3,15 @@ package entidades;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+import main.Game;
+import mapa.Camera;
+
 // Classe pai - para organizar/alocar os itens/objetos do game (Ex.: objetos dentro do mapa etc)
 public class Entity {
+	
+	public static BufferedImage chao = Game.sprite.getSprite(0, 0, 16, 16); // Bloco Terra
+	public static BufferedImage chaoGrama = Game.sprite.getSprite(16, 0, 16, 16); // Bloco Terra e Grama
+	public static BufferedImage empty = Game.sprite.getSprite(16, 32, 16, 16); // Bloco Vazio
 	
 	// Double para diminuir a velocidade do movimento do personagem (ponto flutuante)
 	protected double x; 
@@ -53,6 +60,6 @@ public class Entity {
 	}
 	
 	public void render(Graphics g) {
-		g.drawImage(sprite, this.getX(), this.getY(), null);
+		g.drawImage(sprite, this.getX() - Camera.x, this.getY() - Camera.y, null);
 	}
 }
