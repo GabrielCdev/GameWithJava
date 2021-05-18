@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import entidades.Ceu;
 import entidades.Entity;
 import entidades.Solido;
 import main.Game;
@@ -42,8 +43,9 @@ public class Mapa {
 					}else if(pixelAtual == 0xFF4b692f) { // Verificações para o SOLO (grama)
 						Solido solido = new Solido(x*16, y*16, 16, 16, Entity.chaoGrama);
 						Game.entidades.add(solido);
-					}else if(pixelAtual == 0xFFffffff) { // Bloco vazio
-						tiles[x + (y*WIDTH)] = new Empty(x*16, y*16, Entity.empty); // *16 -> A imagem tem 1 pixel só, mas o tile tem que caber em tudo (=16 pixels)
+					}else if(pixelAtual == 0xFF004eff) { // Bloco vazio
+						Ceu ceu = new Ceu(x*16,y*16,16,16,Entity.ceu);
+						Game.ceuVetor.add(ceu);
 					}
 				}				
 			}

@@ -12,6 +12,7 @@ public class Entity {
 	public static BufferedImage chao = Game.sprite.getSprite(0, 0, 16, 16); // Bloco Terra
 	public static BufferedImage chaoGrama = Game.sprite.getSprite(16, 0, 16, 16); // Bloco Terra e Grama
 	public static BufferedImage empty = Game.sprite.getSprite(16, 32, 16, 16); // Bloco Vazio
+	public static BufferedImage ceu = Game.ceu.getSprite(0, 0, 1471, 400);
 	
 	// Double para diminuir a velocidade do movimento do personagem (ponto flutuante)
 	protected double x; 

@@ -13,10 +13,11 @@ import java.util.List;
 
 import javax.swing.JFrame;
 
+import mapa.Mapa;
+import entidades.Ceu;
 import entidades.Entity;
 import entidades.Player;
 import graficos.Spritesheet;
-import mapa.Mapa;
 
 public class Game extends Canvas implements Runnable, KeyListener {
 // Canvas = Meio de criação da tela e seus itens (botão de fechar, minimizar etc etc)
@@ -38,6 +39,9 @@ public class Game extends Canvas implements Runnable, KeyListener {
 	
 	public static Player player;
 	
+	public static List<Ceu> ceuVetor;
+	public static Spritesheet ceu;
+	
 	public UserInterface ui;
 	
 	public Game() {
@@ -48,6 +52,8 @@ public class Game extends Canvas implements Runnable, KeyListener {
 		fundo = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB); // Inicializando...
 		entidades = new ArrayList<Entity>(); // Para rodar coisas referentes a entidades
 		sprite = new Spritesheet("/spritesheet.png"); // Sprite das entidades
+		ceuVetor = new ArrayList<Ceu>();
+		ceu = new Spritesheet("/ceusprite.png");
 		player = new Player(0, 0, 16, 16, sprite.getSprite(32, 0, 16, 16));
 		entidades.add(player); // Adicionar o player
 		mapa = new Mapa("/level1.png");
@@ -93,6 +99,11 @@ public class Game extends Canvas implements Runnable, KeyListener {
 			Entity entidade = entidades.get(i);
 			entidade.tick();
 		}
+		
+		for(int i = 0; i < ceuVetor.size(); i++) {
+			Ceu entidade = ceuVetor.get(i);
+			entidade.tick();
+		}
 	}
 	
 	public void render() {
@@ -110,6 +121,14 @@ public class Game extends Canvas implements Runnable, KeyListener {
 		
 		mapa.render(g);
 		
+		// Render céu atrás das entidades para carregar o céu (background) antes
+		for(int i = 0; i < ceuVetor.size(); i++) {
+			Ceu entidade = ceuVetor.get(i);
+			
+			entidade.render(g);
+		}
+		
+		// Responsável por alocar o player, tile, sólido...
 		for(int i = 0; i < entidades.size(); i++) {
 			Entity entidade = entidades.get(i);
 			
