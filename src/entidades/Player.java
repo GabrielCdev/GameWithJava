@@ -41,6 +41,7 @@ public class Player extends Entity {
 	public int jumpHeight = 36; // Altura do pulo
 	public int jumpFrames = 0;
 	public Inimigo ini;
+	public Cenoura vida;
 	
 	public Player(int x, int y, int width, int height, BufferedImage sprite) {
 		super(x, y, width, height, sprite);
@@ -161,7 +162,12 @@ public class Player extends Entity {
 		// y -= 2; // Cima
 		
 		if(damage((int)(x+speed), this.getY())) {
-			life -= 0.10;
+			life -= 0.45;
+		}
+		
+		if(vida(this.getX(), this.getY())) { // Pega as coordenadas do player
+			life += 10;
+			Game.cenoura.remove(vida);
 		}
 		
 		// Limitar a tela de jogo baseado no "mapa"
@@ -199,6 +205,25 @@ public class Player extends Entity {
 				
 				if(player.intersects(inimigo)) { // Verifica se o player está encostando num inimigo
 					ini = entidade; // Pegar a entidade atual e alocar no ini
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	// Colisão com a cenoura para regenerar vida
+	public boolean vida(int nextx, int nexty) { // nextx e nexty = pegar a posição X e Y da cenoura
+		Rectangle player = new Rectangle(nextx + maskx, nexty + masky, maskw, maskh); // Criar um retângulo pro player
+		
+		for(int i = 0; i < Game.cenoura.size(); i++) {
+			Cenoura cenoura = Game.cenoura.get(i);
+			
+			if(cenoura instanceof Cenoura) { // Verifica se é uma cenoura e cria uma área retangular nela
+				Rectangle solido = new Rectangle(cenoura.getX() + maskx, cenoura.getY() + masky, maskw, maskh);
+				
+				if(player.intersects(solido)) { // Verifica se o player está encostando na cenoura
+					vida = cenoura;
 					return true;
 				}
 			}
