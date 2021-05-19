@@ -134,6 +134,10 @@ public class Player extends Entity {
 		// y += 2; // Baixo
 		// y -= 2; // Cima
 		
+		if(damage((int)(x+speed), this.getY())) {
+			life -= 0.10;
+		}
+		
 		// Limitar a tela de jogo baseado no "mapa"
 		Camera.x = Camera.Clamp(this.getX() - (Game.WIDTH/2), 0, mapa.Mapa.WIDTH*16 - Game.WIDTH); // 1º item = Posição atual do player - largura do jogo/2 -> Câmera do jogo fica centralizada no player, 2º min = 0 (só renderizar valores >= 0)
 		Camera.y = Camera.Clamp(this.getY() - (Game.HEIGHT/2), 0, mapa.Mapa.HEIGHT*16 - Game.HEIGHT); // 1º item = Posição atual do player - largura do jogo/2 -> Câmera do jogo fica centralizada no player, 2º min = 0 (só renderizar valores >= 0)
@@ -150,6 +154,24 @@ public class Player extends Entity {
 				Rectangle solido = new Rectangle(entidade.getX() + maskx, entidade.getY() + masky, maskw, maskh);
 				
 				if(player.intersects(solido)) { // Verifica se o player está encostando num sólido
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	// Colisão com o inimigo
+	public boolean damage(int nextx, int nexty) { // nextx e nexty = pegar a posição X e Y do personagem
+		Rectangle player = new Rectangle(nextx + maskx, nexty + masky, maskw, maskh); // Criar um retângulo pro player
+		
+		for(int i = 0; i < Game.inimigo.size(); i++) {
+			Inimigo entidade = Game.inimigo.get(i);
+			
+			if(entidade instanceof Inimigo) { // Verifica se é um inimigo e cria uma área retangular nele
+				Rectangle inimigo = new Rectangle(entidade.getX() + maskx, entidade.getY() + masky, maskw, maskh);
+				
+				if(player.intersects(inimigo)) { // Verifica se o player está encostando num inimigo
 					return true;
 				}
 			}
