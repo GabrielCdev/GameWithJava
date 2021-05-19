@@ -209,16 +209,26 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		
+		// Tecla D ou seta para a direita
 		if(e.getKeyCode() == KeyEvent.VK_D || e.getKeyCode() == KeyEvent.VK_RIGHT) {
 			player.right = true;
+			// Tecla A ou seta para a esquerda
 		} else if(e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode() == KeyEvent.VK_LEFT) {
 			player.left = true;
 		}
 		
+		// Tecla W ou seta para cima
 		if(e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_UP) {
 			player.up = true;
+			// Tecla S ou seta para baixo
 		} else if(e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode() == KeyEvent.VK_DOWN) {
 			player.down = true;
+		}
+		
+		// Tecla espaço
+		if(e.getKeyCode() == KeyEvent.VK_SPACE) {
+			player.jump = true;
 		}
 	}
 
