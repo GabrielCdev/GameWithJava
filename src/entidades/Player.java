@@ -14,7 +14,7 @@ public class Player extends Entity {
 	public boolean left;
 	public boolean down;
 	public boolean up;
-	public double speed = 1.5;	// Velocidade de movimentação
+	public double speed = 1.5;	// Velocidade de movimentação do Player
 	public static double life = 100; // Vida do player
 	public static double maxLife = 100; // Vida máxima possível
 
@@ -57,7 +57,7 @@ public class Player extends Entity {
 		movimentacao = 0;
 		
 		// Colisão
-		if(!colisao((int)x, (int)(y+1)) == false) { // Enquanto não estiver colidindo... (y+1 = 1 px acima no eixo Y para não ficar abaixo do solo).
+		if(!colisao((int)x, (int)(y+1))) { // Enquanto não estiver colidindo... (y+1 = 1 px acima no eixo Y para não ficar abaixo do solo).
 			y += 2;
 		}
 		
@@ -111,6 +111,7 @@ public class Player extends Entity {
 		Camera.y = Camera.Clamp(this.getY() - (Game.HEIGHT/2), 0, mapa.Mapa.HEIGHT*16 - Game.HEIGHT); // 1º item = Posição atual do player - largura do jogo/2 -> Câmera do jogo fica centralizada no player, 2º min = 0 (só renderizar valores >= 0)
 	}
 	
+	// Método de Colisão
 	public boolean colisao(int nextx, int nexty) { // nextx e nexty = pegar a posição X e Y do personagem
 		Rectangle player = new Rectangle(nextx + maskx, nexty + masky, maskw, maskh); // Criar um retângulo pro player
 		
