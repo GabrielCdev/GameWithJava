@@ -40,6 +40,7 @@ public class Player extends Entity {
 	public boolean isJump = false; // Está pulando? Colisão...
 	public int jumpHeight = 36; // Altura do pulo
 	public int jumpFrames = 0;
+	public Inimigo ini;
 	
 	public Player(int x, int y, int width, int height, BufferedImage sprite) {
 		super(x, y, width, height, sprite);
@@ -56,14 +57,39 @@ public class Player extends Entity {
 		}
 	}
 
+	@SuppressWarnings("unused") // Eliminando Warning do FOR
 	// Tick SEMPRE ANTES do Render
 	public void tick() {
 		// Adicionando animação para movimentações
 		movimentacao = 0;
 		
+		
+		
 		// Colisão
-		if(!colisao((int)x, (int)(y+1)) && isJump == false) { // Enquanto não estiver colidindo... (y+1 = 1 px acima no eixo Y para não ficar abaixo do solo).
+		// Se não estiver colidindo com o chão... (y+1 = 1 px acima no eixo Y para não ficar abaixo do solo).
+		// Se não estiver pulando <- caindo
+		if(!colisao((int)x, (int)(y+1)) && isJump == false) {
 			y += 2;
+			
+			// Destruir os inimigos
+			// Se estiver "caindo" em cima do inimigo... get(Y) - 8 => Para posicionar-se em cima do inimigo, porém abaixo do limite do retângulo (= 16) de colisão (máscara de colisão)
+			for(int i = 0; i < Game.inimigo.size(); i++) {
+				Inimigo e = Game.inimigo.get(i); // Aloca o inimigo na variável
+				
+				if(e instanceof Inimigo) { // Verifica se o inimigo é realmente um inimigo
+					// getY()-8 é para o Player cair EM CIMA do inimigo, visto que o retângulo (máscara de colisão) tem 16px
+					if(damage(this.getX(), this.getY()-8)) { // Verifica se está caindo por cima do inimigo
+						isJump = true; // Quicar após "matar" o inimigo
+						((Inimigo) e).life--;
+						
+						if(((Inimigo) e).life == 0) {
+							Game.inimigo.remove(e); // Remover o inimigo
+							break;
+						}
+					}
+				}
+				break;
+			}
 		}
 		
 		// Adicionando animação para movimentações com colisão
@@ -172,6 +198,7 @@ public class Player extends Entity {
 				Rectangle inimigo = new Rectangle(entidade.getX() + maskx, entidade.getY() + masky, maskw, maskh);
 				
 				if(player.intersects(inimigo)) { // Verifica se o player está encostando num inimigo
+					ini = entidade; // Pegar a entidade atual e alocar no ini
 					return true;
 				}
 			}

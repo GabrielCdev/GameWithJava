@@ -21,6 +21,8 @@ public class Inimigo extends Entity {
 	public int masky = 0;
 	public int maskw = 16;
 	public int maskh = 16;
+	public int life = 3;
+	public int maxLife = 5;
 	
 	public BufferedImage[] inimigo;
 
