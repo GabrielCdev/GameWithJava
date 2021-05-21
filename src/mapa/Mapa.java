@@ -3,6 +3,7 @@ package mapa;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
@@ -12,7 +13,9 @@ import entidades.Check;
 import entidades.Entity;
 import entidades.Grama;
 import entidades.Inimigo;
+import entidades.Player;
 import entidades.Solido;
+import graficos.Spritesheet;
 import main.Game;
 
 public class Mapa {
@@ -88,5 +91,17 @@ public class Mapa {
 				tile.render(g);
 			}
 		}
+	}
+	
+	public static void nextLevel(String level) {
+		Game.entidades = new ArrayList<Entity>(); // Para rodar coisas referentes a entidades
+		Game.sprite = new Spritesheet("/spritesheet.png"); // Sprite das entidades
+		Game.cenoura = new ArrayList<Cenoura>();
+		Game.inimigo = new ArrayList<Inimigo>();
+		Game.ceuVetor = new ArrayList<Ceu>();
+		Game.ceu = new Spritesheet("/ceusprite.png");
+		Game.player = new Player(0, 0, 16, 16, Game.sprite.getSprite(32, 0, 16, 16));
+		Game.entidades.add(Game.player); // Adicionar o player
+		Game.mapa = new Mapa("/"+level);
 	}
 }

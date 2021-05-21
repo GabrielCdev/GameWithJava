@@ -49,6 +49,9 @@ public class Game extends Canvas implements Runnable, KeyListener {
 	
 	public UserInterface ui;
 	
+	public int level = 1; // 1º level
+	public int levelMax = 2; // Apenas 2 levels
+	
 	public Game() {
 		addKeyListener(this); // Adicionando um evento "escutador" de teclado
 		this.setPreferredSize(new Dimension(WIDTH*SCALE, HEIGHT*SCALE)); // Tamanho para o JFrame
@@ -102,6 +105,20 @@ public class Game extends Canvas implements Runnable, KeyListener {
 	
 	// Tick antes do Render
 	public void tick() {
+		
+		// Para passar de level (elimina os inimigos)
+		if(inimigo.size() == 0) {
+			level++;
+			
+			// Quando chegar no último level, retorna pro 1 (loop)
+			if(level > levelMax) {
+				level = 1;
+			}
+			
+			String Level = "level"+level+".png";
+			Mapa.nextLevel(Level);
+		}
+		
 		for(int i = 0; i < entidades.size(); i++) {
 			Entity entidade = entidades.get(i);
 			entidade.tick();
