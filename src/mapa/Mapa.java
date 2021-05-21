@@ -8,6 +8,7 @@ import javax.imageio.ImageIO;
 
 import entidades.Cenoura;
 import entidades.Ceu;
+import entidades.Check;
 import entidades.Entity;
 import entidades.Grama;
 import entidades.Inimigo;
@@ -58,6 +59,9 @@ public class Mapa {
 					}else if(pixelAtual == 0xFF143e0d) {
 						Grama grama = new Grama(x*16, y*16, 16, 16, Entity.grama);
 						Game.entidades.add(grama);
+					}else if(pixelAtual == 0xFF4e0c0c) {
+						Check checkpoint = new Check(x*16, y*16, 16, 16, Entity.save);
+						Game.entidades.add(checkpoint);
 					}
 				}				
 			}

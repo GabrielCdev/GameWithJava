@@ -43,6 +43,9 @@ public class Player extends Entity {
 	public Inimigo ini;
 	public Cenoura vida;
 	
+	public int posX;
+	public int posY;
+	
 	public Player(int x, int y, int width, int height, BufferedImage sprite) {
 		super(x, y, width, height, sprite);
 		playerRight = new BufferedImage[4]; // 4 = 4 Sprites
@@ -165,9 +168,29 @@ public class Player extends Entity {
 			life -= 0.45;
 		}
 		
-		if(vida(this.getX(), this.getY())) { // Pega as coordenadas do player
+		// Recuperar vida
+		if(vida(this.getX(), this.getY()) && life < 100) { // Pega as coordenadas do player
 			life += 10;
+			
+			// Não permitir que a vida máxima no game seja maior que 100
+			if(life > 100) {
+				life = 100;
+			}
+			
 			Game.cenoura.remove(vida);
+		}
+		
+		// Recuperar vida
+		if(checkpoint(this.getX(), this.getY())) { // Verifica quando o player encosta no Checkpoint
+			posX = this.getX(); // Atribui a posição X do player
+			posY = this.getY(); // Atribui a posição Y do player
+		}
+		
+		if(life <= 0) { // Se a vida for menor ou igual a 0
+			// Seta a posição do personagem na posição do checkpoint
+			setX(posX);
+			setY(posY);
+			life = 100; // Volta com a vida 100%
 		}
 		
 		// Limitar a tela de jogo baseado no "mapa"
@@ -186,6 +209,24 @@ public class Player extends Entity {
 				Rectangle solido = new Rectangle(entidade.getX() + maskx, entidade.getY() + masky, maskw, maskh);
 				
 				if(player.intersects(solido)) { // Verifica se o player está encostando num sólido
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	// Colisão com o checkpoint
+	public boolean checkpoint(int nextx, int nexty) { // nextx e nexty = pegar a posição X e Y do personagem
+		Rectangle player = new Rectangle(nextx + maskx, nexty + masky, maskw, maskh); // Criar um retângulo pro player
+		
+		for(int i = 0; i < Game.entidades.size(); i++) {
+			Entity entidade = Game.entidades.get(i);
+			
+			if(entidade instanceof Check) { // Verifica se é o Checkpoint e cria uma área retangular nele
+				Rectangle solido = new Rectangle(entidade.getX() + maskx, entidade.getY() + masky, maskw, maskh);
+				
+				if(player.intersects(solido)) { // Verifica se o player está encostando no Checkpoint
 					return true;
 				}
 			}

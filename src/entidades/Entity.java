@@ -18,6 +18,8 @@ public class Entity {
 	public static BufferedImage inimigo = Game.sprite.getSprite(112, 0, 16, 16); // Bloco Alienigena (inimigo)
 	public static BufferedImage cenoura = Game.sprite.getSprite(112, 16, 16, 16); // Bloco Cenoura (recuperar vida)
 	
+	public static BufferedImage save = Game.sprite.getSprite(96, 16, 16, 16);
+	
 	// Double para diminuir a velocidade do movimento do personagem (ponto flutuante)
 	protected double x; 
 	protected double y;
