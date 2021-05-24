@@ -1,6 +1,6 @@
 package mapa;
 
-// Será a classe pai -> servirá para carregar os principais blocos
+// Sera a classe pai -> servira para carregar os principais blocos
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 

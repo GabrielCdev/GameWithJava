@@ -15,6 +15,6 @@ public class UserInterface {
 		g.fillRect(20, 20, 50, 5); // Cor vermelha de vida perdida
 		
 		g.setColor(Color.green);
-		g.fillRect(20, 20, (int)((Player.life/Player.maxLife)*50), 5); // Cor verde de vida (calcula e exibe onde a vida está na barrinha)
+		g.fillRect(20, 20, (int)((Player.life/Player.maxLife)*50), 5); // Cor verde de vida (calcula e exibe onde a vida esta na barrinha)
 	}
 }

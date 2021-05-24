@@ -22,16 +22,16 @@ public class Cenoura extends Entity {
 		}
 	}
 	
-	public boolean colisao(int nextx, int nexty) { // nextx e nexty = pegar a posição X e Y da cenoura
-		Rectangle cenoura = new Rectangle(nextx + maskx, nexty + masky, maskw, maskh); // Criar um retângulo pra cenoura
+	public boolean colisao(int nextx, int nexty) { // nextx e nexty = pegar a posicao X e Y da cenoura
+		Rectangle cenoura = new Rectangle(nextx + maskx, nexty + masky, maskw, maskh); // Criar um retangulo pra cenoura
 		
 		for(int i = 0; i < Game.entidades.size(); i++) {
 			Entity entidade = Game.entidades.get(i);
 			
-			if(entidade instanceof Solido) { // Verifica se é um sólido. Se for, cria um novo retângulo para ela.
+			if(entidade instanceof Solido) { // Verifica se eh um solido. Se for, cria um novo retangulo para ela.
 				Rectangle solido = new Rectangle(entidade.getX() + maskx, entidade.getY() + masky, maskw, maskh);
 				
-				if(cenoura.intersects(solido)) { // Verifica se a cenoura está encostando num sólido
+				if(cenoura.intersects(solido)) { // Verifica se a cenoura esta encostando num solido
 					return true;
 				}
 			}

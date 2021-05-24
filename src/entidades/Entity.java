@@ -35,7 +35,7 @@ public class Entity {
 		this.sprite = sprite;
 	}
 	
-	// Setters <- Serão usados para setar a posição do player
+	// Setters <- Serao usados para setar a posicao do player
 	public void setX(int newX) {
 		this.x = newX;
 	}
@@ -62,9 +62,7 @@ public class Entity {
 	}
 	
 	// Tick SEMPRE ANTES do Render
-	public void tick() {
-		
-	}
+	public void tick() { }
 	
 	public void render(Graphics g) {
 		g.drawImage(sprite, this.getX() - Camera.x, this.getY() - Camera.y, null);

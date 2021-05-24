@@ -40,14 +40,14 @@ public class Mapa {
 					int pixelAtual = pixels[x + (y*level.getWidth())]; // Acessa o tamanho do vetor para verificar/adicionar/renderizar os elementos
 					tiles[x + (y*WIDTH)] = new Empty(x*16, y*16, Entity.empty); // Background transparente
 					
-					// Verificações (com ajuda do Aseprite)
-					if(pixelAtual == 0xFF7bff00) { // Verificação para o PLAYER
-						Game.player.setX(x*16); // Pixel atual * 16 = posição correta do player
-						Game.player.setY(y*16); // Pixel atual * 16 = posição correta do player
-					}else if(pixelAtual == 0xFF8f563b) { // Verificação para o SOLO (terra)
+					// Verificacoes (com ajuda do Aseprite)
+					if(pixelAtual == 0xFF7bff00) { // Verificacao para o PLAYER
+						Game.player.setX(x*16); // Pixel atual * 16 = posicao correta do player
+						Game.player.setY(y*16); // Pixel atual * 16 = posicao correta do player
+					}else if(pixelAtual == 0xFF8f563b) { // Verificacao para o SOLO (terra)
 						Solido solido = new Solido(x*16, y*16, 16, 16, Entity.chao);
 						Game.entidades.add(solido);
-					}else if(pixelAtual == 0xFF4b692f) { // Verificações para o SOLO (grama)
+					}else if(pixelAtual == 0xFF4b692f) { // Verificacoes para o SOLO (grama)
 						Solido solido = new Solido(x*16, y*16, 16, 16, Entity.chaoGrama);
 						Game.entidades.add(solido);
 					}else if(pixelAtual == 0xFF004eff) { // Bloco vazio
@@ -76,12 +76,12 @@ public class Mapa {
 	public void render(Graphics g) {
 		int xi = Camera.x/16; // xi = X inicial - Verificar o pixel da imagem original sem o tile
 		int yi = Camera.y/16; // yi = Y inicial - Verificar o pixel da imagem original sem o tile
-		int xf = xi + (Game.WIDTH/16); // xf = X final - Verificar até onde dá pra renderizar
-		int yf = yi + (Game.HEIGHT/16); // yf = Y final - Verificar até onde dá pra renderizar
+		int xf = xi + (Game.WIDTH/16); // xf = X final - Verificar ate onde da pra renderizar
+		int yf = yi + (Game.HEIGHT/16); // yf = Y final - Verificar ate onde da pra renderizar
 
 		for(int x = xi; x <= xf; x++) {
 			for(int y = yi; y <= yf; y++) {
-				// Verificação para o jogo continuar (sem "colidir" com a parte preta)
+				// Verificacao para o jogo continuar (sem "colidir" com a parte preta)
 				if(x < 0 || y < 0 || x >= WIDTH || y >= HEIGHT) {
 					continue;
 				}
