@@ -17,19 +17,19 @@ public class Inimigo extends Entity {
 	public int index = 0;
 	public int maxIndex = 1; // 0 a 1 (serao usadas 2 animacoes)
 	
+	// Valores referentes a SpriteSheet
 	public int maskx = 0;
 	public int masky = 0;
 	public int maskw = 16;
 	public int maskh = 16;
-	public int life = 3;
-	public int maxLife = 5;
+	public int life = 3; // Vida do inimigo
 	
 	public BufferedImage[] inimigo;
 
 	public Inimigo(int x, int y, int width, int height, BufferedImage sprite) {
 		super(x, y, width, height, sprite);
 		
-		inimigo = new BufferedImage[2];
+		inimigo = new BufferedImage[2]; // 2 Sprites
 		
 		for(int i = 0; i < 2; i++) { // Ira percorrer os frames de animacao e alocar dentro do vetor
 			inimigo[i] = Game.sprite.getSprite(112 + (i*16), 0, 16, 16); // Os valores correspondem a 1a animacao (para a direita). +*16 para passar as animacoes
@@ -71,8 +71,8 @@ public class Inimigo extends Entity {
 	}
 	
 	// Metodo de colisao do inimigo
-	public boolean colisao(int nextx, int nexty) { // nextx e nexty = pegar a posicao X e Y do personagem
-		Rectangle player = new Rectangle(nextx + maskx, nexty + masky, maskw, maskh); // Criar um retangulo pro player
+	public boolean colisao(int nextx, int nexty) { // nextx e nexty = pegar a posicao X e Y do inimigo
+		Rectangle inimigo = new Rectangle(nextx + maskx, nexty + masky, maskw, maskh); // Criar um retangulo pro inimigo
 		
 		for(int i = 0; i < Game.entidades.size(); i++) {
 			Entity entidade = Game.entidades.get(i);
@@ -80,11 +80,11 @@ public class Inimigo extends Entity {
 			if(entidade instanceof Solido) { // Verifica se ha um solido. Se for, cria um novo retangulo para ela.
 				Rectangle solido = new Rectangle(entidade.getX() + maskx, entidade.getY() + masky, maskw, maskh);
 				
-				if(player.intersects(solido)) { // Verifica se o player esta encostando num solido
+				if(inimigo.intersects(solido)) { // Verifica se o inimigo esta encostando num solido
 					return true;
 				}
 			}
 		}
 		return false;
-	}		
+	}
 }

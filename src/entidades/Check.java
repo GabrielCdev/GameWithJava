@@ -24,8 +24,8 @@ public class Check extends Entity {
 	}
 	
 	// Colisao do checkpoint com o solo (ficar no solo)
-	public boolean colisao(int nextx, int nexty) { // nextx e nexty = pegar a posicao X e Y do personagem
-		Rectangle player = new Rectangle(nextx + maskx, nexty + masky, maskw, maskh); // Criar um retangulo pro player
+	public boolean colisao(int nextx, int nexty) { // nextx e nexty = pegar a posicao X e Y do checkpoint
+		Rectangle checkpoint = new Rectangle(nextx + maskx, nexty + masky, maskw, maskh); // Criar um retangulo pro checkpoint
 		
 		for(int i = 0; i < Game.entidades.size(); i++) {
 			Entity entidade = Game.entidades.get(i);
@@ -33,7 +33,7 @@ public class Check extends Entity {
 			if(entidade instanceof Solido) { // Verifica se eh um solido. Se for, cria um novo retangulo para ela.
 				Rectangle solido = new Rectangle(entidade.getX() + maskx, entidade.getY() + masky, maskw, maskh);
 				
-				if(player.intersects(solido)) { // Verifica se o player esta encostando num solido
+				if(checkpoint.intersects(solido)) { // Verifica se o checkpoint esta encostando num solido (chao)
 					return true;
 				}
 			}

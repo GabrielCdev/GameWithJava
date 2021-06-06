@@ -31,7 +31,7 @@ public class Cenoura extends Entity {
 			if(entidade instanceof Solido) { // Verifica se eh um solido. Se for, cria um novo retangulo para ela.
 				Rectangle solido = new Rectangle(entidade.getX() + maskx, entidade.getY() + masky, maskw, maskh);
 				
-				if(cenoura.intersects(solido)) { // Verifica se a cenoura esta encostando num solido
+				if(cenoura.intersects(solido)) { // Verifica se a cenoura esta encostando num solido (chao)
 					return true;
 				}
 			}

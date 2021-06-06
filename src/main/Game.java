@@ -22,12 +22,13 @@ import entidades.Player;
 import graficos.Spritesheet;
 
 public class Game extends Canvas implements Runnable, KeyListener {
-// Canvas = Meio de criacao da tela e seus itens (botao de fechar, minimizar etc etc)
+// Canvas = Meio de criacao da tela (área retangular) para criação/desenho de seus itens e captura de eventos (botao de fechar, minimizar etc etc)
+// Runnable (run) para "cobrir" a implementação de Threads no desenvolvimento...
 
 	private static final long serialVersionUID = 1L; // Nada muito importante... sao pra tirar a marcacao em Game
 	
 	public static JFrame jFrame; // Janela
-	private Thread thread;
+	private Thread thread; // Possibilitar ao jogo rodar uma sequencia de instrucoes... tambem permitindo trabalhos paralelos, ja que os processos podem ser divididos
 	private boolean isRunning = true;
 
 	public static int WIDTH = 240; // Largura
@@ -57,7 +58,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
 		this.setPreferredSize(new Dimension(WIDTH*SCALE, HEIGHT*SCALE)); // Tamanho para o JFrame
 		initFrame(); // Organizar partes do codigo e separa-las (mais literal)
 		ui = new UserInterface();
-		fundo = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB); // Inicializando...
+		fundo = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB); // Inicializando... Imagem colorida (RGB) de 8 bits (pixel)
 		entidades = new ArrayList<Entity>(); // Para rodar coisas referentes a entidades
 		sprite = new Spritesheet("/spritesheet.png"); // Sprite das entidades
 		cenoura = new ArrayList<Cenoura>();
@@ -113,8 +114,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
 			if(level > levelMax) {
 				level = 1;
 			}
-			
-			String Level = "level"+level+".png";
+
 			Mapa.nextLevel(Level);
 		}
 		
@@ -143,15 +143,14 @@ public class Game extends Canvas implements Runnable, KeyListener {
 		BufferStrategy buffer = this.getBufferStrategy(); // Sequencia de buffers para otimizar a renderizacao dos graficos
 		
 		if(buffer == null) {
-			this.createBufferStrategy(3); // 3 = buffers necessarios, caso null = 3 sao criados
-			
+			this.createBufferStrategy(3); // Caso null = 3 buffers sao criados (necessario apenas 3)
 			return;
 		}
 		
-		Graphics g = fundo.getGraphics();
-		g.setColor(new Color(0, 0, 0));
-		g.fillRect(0, 0, WIDTH, HEIGHT);
-		
+		Graphics g = fundo.getGraphics(); // Retorna graficos 2D
+		g.setColor(new Color(0, 0, 0)); // Fundo preto (background)
+		g.fillRect(0, 0, WIDTH, HEIGHT); // Desenhar o retangulo já preenchido
+
 		mapa.render(g);
 		
 		// Render ceu antes das entidades para carregar o ceu (background) antes
@@ -179,12 +178,15 @@ public class Game extends Canvas implements Runnable, KeyListener {
 		ui.render(g);
 		
 		g = buffer.getDrawGraphics(); // Evitar efeito "pisca-pisca" da tela
-		g.drawImage(fundo, 0, 0, WIDTH*SCALE, HEIGHT*SCALE, null);
+		g.drawImage(fundo, 0, 0, WIDTH*SCALE, HEIGHT*SCALE, null); // Desenhar a imagem (img, x, y, largura, altura e o imageObserver)
+		
 		buffer.show();
 	}
 
 	@Override
-	public void run() {
+	public void run() { // Controlar o que acontece dentro dos 60 FPS (renderizações, atualizações, velocidade na qual o jogo opera)
+	// Como forma de controlar a velocidade que o jogo é executado e atualizado, entendendo a distinção de arquitetura de computadores em hardware/software, uso o tempo
+	// do mundo real (nanoTime) para limitar nos 60 FPS.
 		long lastTime = System.nanoTime(); // nanoTime() = Retorna um valor de tempo do sistema em nanossegundos
 		double amountOfTicks = 60.0f; // Delimitar o tamanho do Tick
 		double ms = 1000000000 / amountOfTicks;
@@ -192,6 +194,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
 		int frames = 0; // Contador
 		double timer = System.currentTimeMillis();
 		
+		// Atualização do jogo apenas quando o programa passa pelo loop e o tempo desde a última vez que a instrução if executada é pelo menos 1/60 de segundo
 		while(isRunning) {
 			long now = System.nanoTime();
 			delta += (now - lastTime)/ms;
@@ -201,15 +204,15 @@ public class Game extends Canvas implements Runnable, KeyListener {
 			// System.out.println(timer);
 			
 			// Temporizador
-			if(delta > 1) { // Se a conta em delta > 1 = 
+			if(delta > 1) { // Se a conta em delta > 1 =  <= capturar a diferença de tempo em nanossegundos do nanoTime e o último tick
 				tick();
 				render();
 				frames++;
-				delta--;
+				delta--; // Delta -1
 			}			
 			
 			// Verificar o FPS
-			if(System.currentTimeMillis() - timer >= 1000) {
+			if(System.currentTimeMillis() - timer >= 1000) { // Quantas vezes a tela foi renderizada em 1 segundo e quantas atualizações ocorreram
 				System.out.println("FPS:" + frames);
 				frames = 0;
 				timer += 1000;
@@ -225,21 +228,12 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		
 		// Tecla D ou seta para a direita
 		if(e.getKeyCode() == KeyEvent.VK_D || e.getKeyCode() == KeyEvent.VK_RIGHT) {
 			player.right = true;
 			// Tecla A ou seta para a esquerda
 		} else if(e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode() == KeyEvent.VK_LEFT) {
 			player.left = true;
-		}
-		
-		// Tecla W ou seta para cima
-		if(e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_UP) {
-			player.up = true;
-			// Tecla S ou seta para baixo
-		} else if(e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode() == KeyEvent.VK_DOWN) {
-			player.down = true;
 		}
 		
 		// Tecla espaco
@@ -254,12 +248,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
 			player.right = false;
 		} else if(e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode() == KeyEvent.VK_LEFT) {
 			player.left = false;
-		}
-		
-		if(e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_UP) {
-			player.up = false;
-		} else if(e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode() == KeyEvent.VK_DOWN) {
-			player.down = false;
 		}
 	}
 }

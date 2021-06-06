@@ -28,6 +28,7 @@ public class Player extends Entity {
 	public int index = 0;
 	public int maxIndex = 3; // 0 a 3 (serao usadas 4 animacoes)
 	
+	// Valores referentes a SpriteSheet
 	public int maskx = 0;
 	public int masky = 0;
 	public int maskw = 16;
@@ -107,7 +108,7 @@ public class Player extends Entity {
 			direcaoAtual = esquerda;
 		}
 
-		// Toda vez que movimentar o frame eh incrementado
+		// Toda vez que o player for movimentado o frame eh incrementado
 		if(movimentacao == 1) {
 			frames++;
 			
@@ -160,7 +161,7 @@ public class Player extends Entity {
 			Game.cenoura.remove(vida);
 		}
 		
-		// Recuperar vida
+		// Checkpoint
 		if(checkpoint(this.getX(), this.getY())) { // Verifica quando o player encosta no Checkpoint
 			posX = this.getX(); // Atribui a posicao X do player
 			posY = this.getY(); // Atribui a posicao Y do player
